@@ -47,5 +47,9 @@
 	<true/>
 	<key>LSSupportsOpeningDocumentsInPlace</key>
 	<true/>
+	<key>NSCameraUsageDescription</key>
+	<string>Bike hack App needs to record video</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Bike hack App needs to record sound</string>
 </dict>
 </plist>

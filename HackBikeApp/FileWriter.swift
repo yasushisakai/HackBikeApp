@@ -33,7 +33,7 @@ class FileWriter {
         try file.writeLines(contents: contents, to: .Documents)
     }
     
-    func getUrl(for directory: Directories) throws -> URL {
+    static func getUrl(for directory: Directories) throws -> URL {
         switch directory{
         case .Documents:
             guard let result = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else {
@@ -45,12 +45,12 @@ class FileWriter {
         }
     }
     
-    func createFullPath(for filename: String, in directory: Directories) throws -> URL {
-        return try getUrl(for: directory).appendingPathComponent(filename)
+    static func createFullPath(for filename: String, in directory: Directories) throws -> URL {
+        return try FileWriter.getUrl(for: directory).appendingPathComponent(filename)
     }
     
     func write(contents: String, to path: Directories) throws {
-        let fullPath = try createFullPath(for: fileName, in: path)
+        let fullPath = try FileWriter.createFullPath(for: fileName, in: path)
         
         guard let data = contents.data(using: .utf8, allowLossyConversion: true) else {
             throw FileError.invalidContents

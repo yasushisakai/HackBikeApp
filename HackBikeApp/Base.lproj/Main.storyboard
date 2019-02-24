@@ -18,6 +18,10 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="EBX-LR-02o">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </view>
                             <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Udj-U6-niz">
                                 <rect key="frame" x="20" y="571" width="335" height="56"/>
                                 <color key="backgroundColor" red="1" green="0.86133143440000004" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
@@ -31,19 +35,26 @@
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                         <constraints>
+                            <constraint firstItem="EBX-LR-02o" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="Crp-as-oB4"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="Udj-U6-niz" secondAttribute="trailing" constant="20" id="L2u-Fo-tx3"/>
+                            <constraint firstItem="EBX-LR-02o" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="SXI-8E-UcJ"/>
                             <constraint firstItem="Udj-U6-niz" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="Tb8-7Z-M7l"/>
+                            <constraint firstItem="EBX-LR-02o" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="adR-iU-v5z"/>
                             <constraint firstItem="Udj-U6-niz" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="gre-xC-XAY"/>
+                            <constraint firstItem="EBX-LR-02o" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="iO2-A4-uTF"/>
+                            <constraint firstItem="EBX-LR-02o" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="o7M-jn-KXn"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="Udj-U6-niz" secondAttribute="bottom" constant="40" id="v0l-cC-LJW"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <connections>
                         <outlet property="locationButton" destination="Udj-U6-niz" id="FKm-JC-sBM"/>
+                        <outlet property="videoView" destination="EBX-LR-02o" id="0lM-cm-kg4"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="136.80000000000001" y="132.68365817091455"/>
         </scene>
     </scenes>
 </document>
