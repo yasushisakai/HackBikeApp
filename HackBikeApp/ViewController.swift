@@ -41,7 +41,9 @@ class ViewController: UIViewController, LocationPermissionDelegate, LocationDele
         
         // NOTE: since the simulator has no camera, you need to test it on a real
         // device
-        guard let videoDevice = AVCaptureDevice.default(for: .video) else {
+            
+        // get front camera
+         guard let videoDevice = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .front) else {
             fatalError("Error: couldn't find video device")
         }
         
@@ -71,6 +73,12 @@ class ViewController: UIViewController, LocationPermissionDelegate, LocationDele
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        if locationManager.isUpdating {
+            UIApplication.shared.isIdleTimerDisabled = true
+        }
     }
     
     @objc func requestLocation(){
