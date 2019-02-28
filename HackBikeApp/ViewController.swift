@@ -75,12 +75,6 @@ class ViewController: UIViewController, LocationPermissionDelegate, LocationDele
         // Dispose of any resources that can be recreated.
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
-        if locationManager.isUpdating {
-            UIApplication.shared.isIdleTimerDisabled = true
-        }
-    }
-    
     @objc func requestLocation(){
         locationManager.requestLocation()
     }
@@ -99,6 +93,8 @@ class ViewController: UIViewController, LocationPermissionDelegate, LocationDele
                 // TODO: Error Handling
             }
             
+            UIApplication.shared.isIdleTimerDisabled = true
+
             locationButton.setTitle("stop recording", for: .normal)
         } else {
             // save the trip to a file
@@ -113,6 +109,8 @@ class ViewController: UIViewController, LocationPermissionDelegate, LocationDele
             
             videoOutput.stopRecording()
             
+            UIApplication.shared.isIdleTimerDisabled = false
+
             locationButton.setTitle("start recording", for: .normal)
         }
     }
