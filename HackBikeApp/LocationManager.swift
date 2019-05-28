@@ -49,7 +49,8 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
     
     static var isAuthorized: Bool {
         switch CLLocationManager.authorizationStatus(){
-        case .authorizedWhenInUse: return true
+        // case .authorizedWhenInUse: return true
+        case .authorizedAlways: return true
         default: return false
         }
     }
@@ -60,7 +61,8 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
         if authorizationStatus == .restricted || authorizationStatus == .denied {
             throw LocationError.userDisallowed
         } else if (authorizationStatus == .notDetermined) {
-            manager.requestWhenInUseAuthorization()
+            // manager.requestWhenInUseAuthorization()
+            manager.requestAlwaysAuthorization()
         } else {
             return
         }
@@ -82,7 +84,8 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
     // MARK: - delagate functions
     
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
-        if status == .authorizedWhenInUse {
+        // if status == .authorizedWhenInUse {
+        if status == .authorizedAlways || status == .authorizedWhenInUse {
             permissionDelegate?.authGranted()
         } else {
             permissionDelegate?.authFailed(with: status)

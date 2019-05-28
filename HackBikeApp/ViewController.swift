@@ -8,22 +8,24 @@
 
 import UIKit
 import CoreLocation
-import AVFoundation
+// import AVFoundation
 import Foundation
-import CoreBluetooth
+// import CoreBluetooth
 
-enum VideoError : Error {
-    case noInput
-    case deviceNotFound
-    case unknown
-}
+// enum VideoError : Error {
+//     case noInput
+//     case deviceNotFound
+//     case unknown
+// }
 
-enum BluetoothError: Error {
-    case powerOff
-    case unknown
-    case noCharacteristics
-}
+// enum BluetoothError: Error {
+//     case powerOff
+//     case unknown
+//     case noCharacteristics
+// }
 
+
+// class ViewController: UIViewController, LocationPermissionDelegate, LocationDelegate, AVCaptureFileOutputRecordingDelegate, CBCentralManagerDelegate, CBPeripheralDelegate{
 
 class ViewController:
 UIViewController,
@@ -33,7 +35,6 @@ LocationDelegate,
 CBCentralManagerDelegate,
 CBPeripheralDelegate
 {
-
     @IBOutlet weak var locationButton: UIButton!
     @IBOutlet weak var videoView: UIView!
     
@@ -44,11 +45,11 @@ CBPeripheralDelegate
     // private var videoOutput = AVCaptureMovieFileOutput()
     var trip: Trip?
     
-    var centralManager: CBCentralManager?
-    var peripheral: CBPeripheral?
-    var characteristic: CBCharacteristic?
+    // var centralManager: CBCentralManager?
+    // var peripheral: CBPeripheral?
+    // var characteristic: CBCharacteristic?
     
-    var isRaspberryReady = false
+    // var isRaspberryReady = false
     
     // hardcoded by raspi
     
@@ -151,7 +152,7 @@ CBPeripheralDelegate
                 }
             }
             
-//            videoOutput.stopRecording()
+            // videoOutput.stopRecording()
             
             UIApplication.shared.isIdleTimerDisabled = false
 
@@ -185,21 +186,21 @@ CBPeripheralDelegate
         fatalError("Location Error: \(error)")
     }
     
-    // MARK: - Video Recording Delegate Function
-    func fileOutput(_ output: AVCaptureFileOutput, didFinishRecordingTo outputFileURL: URL, from connections: [AVCaptureConnection], error: Error?) {
-        //
-    }
+    // // MARK: - Video Recording Delegate Function
+    // func fileOutput(_ output: AVCaptureFileOutput, didFinishRecordingTo outputFileURL: URL, from connections: [AVCaptureConnection], error: Error?) {
+    //     //
+    // }
     
-    // MARK: - Bluetooth Central Manager Delegate
-    
-    func centralManagerDidUpdateState(_ central: CBCentralManager) {
-        
-        guard let centralManager = centralManager else {
-            print("centralManager missing")
-            return
-        }
+    // // MARK: - Bluetooth Central Manager Delegate
+    //
+    // func centralManagerDidUpdateState(_ central: CBCentralManager) {
+    //
+    //     guard let centralManager = centralManager else {
+    //         print("centralManager missing")
+    //         return
+    //     }
 
-        switch centralManager.state {
+   	switch centralManager.state {
         case .poweredOn :
             let services: [CBUUID] = [CBUUID(string: targetServiceUUID)]
             centralManager.scanForPeripherals(withServices: services, options: nil)
