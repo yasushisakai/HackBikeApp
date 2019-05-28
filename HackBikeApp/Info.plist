@@ -24,13 +24,18 @@
 	<true/>
 	<key>NSCameraUsageDescription</key>
 	<string>Bike hack App needs to record video</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>Location is critical for this experiment</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>Location is critical for this experiment</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>We use your location to make your city safe.</string>
+	<string>Location is critical for this experiment</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>Bike hack App needs to record sound</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>bluetooth-central</string>
+		<string>location</string>
 	</array>
 	<key>UIFileSharingEnabled</key>
 	<true/>
@@ -43,11 +48,11 @@
 		<string>bluetooth-le</string>
 		<string>armv7</string>
 	</array>
+	<key>UIStatusBarStyle</key>
+	<string>UIStatusBarStyleDefault</string>
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
-		<string>UIInterfaceOrientationLandscapeLeft</string>
-		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
 	<key>UISupportedInterfaceOrientations~ipad</key>
 	<array>
