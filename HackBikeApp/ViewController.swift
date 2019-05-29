@@ -25,7 +25,14 @@ enum BluetoothError: Error {
 }
 
 
-class ViewController: UIViewController, LocationPermissionDelegate, LocationDelegate, AVCaptureFileOutputRecordingDelegate, CBCentralManagerDelegate, CBPeripheralDelegate{
+class ViewController:
+UIViewController,
+LocationPermissionDelegate,
+LocationDelegate,
+// AVCaptureFileOutputRecordingDelegate,
+CBCentralManagerDelegate,
+CBPeripheralDelegate
+{
 
     @IBOutlet weak var locationButton: UIButton!
     @IBOutlet weak var videoView: UIView!
@@ -34,7 +41,7 @@ class ViewController: UIViewController, LocationPermissionDelegate, LocationDele
         LocationManager(permissionDelegate: self, locationDelegate: self)
     }()
     
-    private var videoOutput = AVCaptureMovieFileOutput()
+    // private var videoOutput = AVCaptureMovieFileOutput()
     var trip: Trip?
     
     var centralManager: CBCentralManager?
@@ -57,37 +64,37 @@ class ViewController: UIViewController, LocationPermissionDelegate, LocationDele
             print("error: \(error)")
         }
         
-        let session = AVCaptureSession()
+//        let session = AVCaptureSession()
         
         // NOTE: since the simulator has no camera, you need to test it on a real
         // device
             
         // get front camera
-         guard let videoDevice = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .front) else {
-            fatalError("Error: couldn't find video device")
-        }
+//         guard let videoDevice = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .front) else {
+//            fatalError("Error: couldn't find video device")
+//        }
+//
+//        guard let audioDevice = AVCaptureDevice.default(for: .audio) else {
+//            fatalError("Error: couldn't find audio device")
+//        }
         
-        guard let audioDevice = AVCaptureDevice.default(for: .audio) else {
-            fatalError("Error: couldn't find audio device")
-        }
+//        do {
+//            let videoInput = try AVCaptureDeviceInput.init(device: videoDevice)
+//            let audioInput = try AVCaptureDeviceInput.init(device: audioDevice)
+//            session.addInput(videoInput)
+//            session.addInput(audioInput)
+//        } catch {
+//            // TODO: Error Handling
+//        }
         
-        do {
-            let videoInput = try AVCaptureDeviceInput.init(device: videoDevice)
-            let audioInput = try AVCaptureDeviceInput.init(device: audioDevice)
-            session.addInput(videoInput)
-            session.addInput(audioInput)
-        } catch {
-            // TODO: Error Handling
-        }
+//        session.addOutput(videoOutput)
         
-        session.addOutput(videoOutput)
-        
-        let videoLayer = AVCaptureVideoPreviewLayer.init(session: session)
-        videoLayer.frame = videoView.bounds
-        videoLayer.videoGravity = .resizeAspectFill
-        videoView.layer.addSublayer(videoLayer)
-        
-        session.startRunning()
+//        let videoLayer = AVCaptureVideoPreviewLayer.init(session: session)
+//        videoLayer.frame = videoView.bounds
+//        videoLayer.videoGravity = .resizeAspectFill
+//        videoView.layer.addSublayer(videoLayer)
+//
+//        session.startRunning()
         
         // - bluetooth
         centralManager = CBCentralManager(delegate: self, queue: nil)
@@ -113,12 +120,12 @@ class ViewController: UIViewController, LocationPermissionDelegate, LocationDele
             let now = Date()
             trip = Trip(started: now)
             
-            do{
-                let videoURL = try FileWriter.createFullPath(for: "\(now.epoch()).mp4", in: .Documents)
-                videoOutput.startRecording(to: videoURL, recordingDelegate: self)
-            } catch {
-                // TODO: Error Handling
-            }
+//            do{
+//                let videoURL = try FileWriter.createFullPath(for: "\(now.epoch()).mp4", in: .Documents)
+//                videoOutput.startRecording(to: videoURL, recordingDelegate: self)
+//            } catch {
+//                // TODO: Error Handling
+//            }
             
             UIApplication.shared.isIdleTimerDisabled = true
 
@@ -134,7 +141,7 @@ class ViewController: UIViewController, LocationPermissionDelegate, LocationDele
                 }
             }
             
-            videoOutput.stopRecording()
+//            videoOutput.stopRecording()
             
             UIApplication.shared.isIdleTimerDisabled = false
 
