@@ -8,24 +8,7 @@
 
 import UIKit
 import CoreLocation
-// import AVFoundation
 import Foundation
-// import CoreBluetooth
-
-// enum VideoError : Error {
-//     case noInput
-//     case deviceNotFound
-//     case unknown
-// }
-
-// enum BluetoothError: Error {
-//     case powerOff
-//     case unknown
-//     case noCharacteristics
-// }
-
-
-// class ViewController: UIViewController, LocationPermissionDelegate, LocationDelegate, AVCaptureFileOutputRecordingDelegate, CBCentralManagerDelegate, CBPeripheralDelegate{
 
 class ViewController:
 UIViewController,
@@ -42,7 +25,6 @@ CBPeripheralDelegate
         LocationManager(permissionDelegate: self, locationDelegate: self)
     }()
     
-    // private var videoOutput = AVCaptureMovieFileOutput()
     var trip: Trip?
     
     // var centralManager: CBCentralManager?
@@ -68,7 +50,7 @@ CBPeripheralDelegate
         } catch let error {
             print("error: \(error)")
         }
-        
+
 //        let session = AVCaptureSession()
         
         // NOTE: since the simulator has no camera, you need to test it on a real
@@ -107,7 +89,6 @@ CBPeripheralDelegate
         // - timer
         // Timer.scheduledTimer(timeInterval: 10.0, target: self, selector:#selector(ViewController.sendHeartBeat), userInfo: nil, repeats: true)
     }
-
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -144,15 +125,15 @@ CBPeripheralDelegate
         } else {
             // save the trip to a file
             if let trip = trip {
-                let fileName = "trip_\(trip.started.epoch()).csv"
+                let fmt = DateFormatter()
+                fmt.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
+                let fileName = "trip_\(fmt.string(from: trip.started)).csv"
                 do {
                     try FileWriter.write(to: fileName, contents: trip.breadCrumbString())
                 } catch let error {
                     fatalError(error.localizedDescription)
                 }
             }
-            
-            // videoOutput.stopRecording()
             
             UIApplication.shared.isIdleTimerDisabled = false
 
