@@ -99,7 +99,6 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
     // MARK: - delagate functions
     
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
-        // if status == .authorizedWhenInUse {
         if status == .authorizedAlways || status == .authorizedWhenInUse {
             permissionDelegate?.authGranted()
         } else {
