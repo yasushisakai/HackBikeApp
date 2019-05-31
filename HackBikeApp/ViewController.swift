@@ -176,6 +176,16 @@ CBPeripheralDelegate
         }
     }
     
+    // FIXME: redundant code
+    
+    func toBackground() {
+        locationManager.toBackground()
+    }
+    
+    func toForeground() {
+        locationManager.toForeground()
+    }
+    
     // MARK: - Location Delegate Function
     
     func obtainedLocation(_ location: Location) {
@@ -183,7 +193,7 @@ CBPeripheralDelegate
     }
     
     func failedWithError(_ error: LocationError) {
-        fatalError("Location Error: \(error)")
+        // fatalError("Location Error: \(error)")
     }
     
     // // MARK: - Video Recording Delegate Function

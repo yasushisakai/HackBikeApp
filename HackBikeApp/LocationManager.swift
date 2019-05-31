@@ -45,6 +45,8 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
         manager.delegate = self
         manager.desiredAccuracy = kCLLocationAccuracyBestForNavigation
         manager.distanceFilter = kCLDistanceFilterNone
+        manager.showsBackgroundLocationIndicator = true
+        manager.pausesLocationUpdatesAutomatically = false
     }
     
     static var isAuthorized: Bool {
@@ -61,7 +63,6 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
         if authorizationStatus == .restricted || authorizationStatus == .denied {
             throw LocationError.userDisallowed
         } else if (authorizationStatus == .notDetermined) {
-            // manager.requestWhenInUseAuthorization()
             manager.requestAlwaysAuthorization()
         } else {
             return
@@ -75,10 +76,24 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
     func toggleUpdate(){
         if isUpdating {
             manager.stopUpdatingLocation()
+            manager.allowsBackgroundLocationUpdates = false
+            manager.stopMonitoringSignificantLocationChanges()
         } else {
             manager.startUpdatingLocation()
+            manager.allowsBackgroundLocationUpdates = true
+            manager.startMonitoringSignificantLocationChanges()
         }
         isUpdating = !isUpdating
+    }
+    
+    func toBackground() {
+        manager.desiredAccuracy = kCLLocationAccuracyHundredMeters
+        manager.distanceFilter = 50
+    }
+    
+    func toForeground() {
+        manager.desiredAccuracy = kCLLocationAccuracyBestForNavigation
+        manager.distanceFilter = kCLDistanceFilterNone
     }
     
     // MARK: - delagate functions
