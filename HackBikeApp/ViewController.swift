@@ -159,6 +159,16 @@ class ViewController: UIViewController, LocationPermissionDelegate, LocationDele
         }
     }
     
+    // FIXME: redundant code
+    
+    func toBackground() {
+        locationManager.toBackground()
+    }
+    
+    func toForeground() {
+        locationManager.toForeground()
+    }
+    
     // MARK: - Location Delegate Function
     
     func obtainedLocation(_ location: Location) {
@@ -166,7 +176,7 @@ class ViewController: UIViewController, LocationPermissionDelegate, LocationDele
     }
     
     func failedWithError(_ error: LocationError) {
-        fatalError("Location Error: \(error)")
+        // fatalError("Location Error: \(error)")
     }
     
     // // MARK: - Video Recording Delegate Function
