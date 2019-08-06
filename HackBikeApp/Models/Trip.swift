@@ -18,10 +18,12 @@ extension Breadcrumb {
 
 class Trip{
     var started: Date
+    var uuid: String
     private var breadCrumbs: [Breadcrumb]
     
     init(started: Date){
         self.started = started
+        self.uuid = UUID.init().uuidString
         self.breadCrumbs = []
     }
 }

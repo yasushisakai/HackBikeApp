@@ -53,8 +53,12 @@ CBPeripheralDelegate
     // hardcoded by raspi
     
     // hackbicycle-earth UUIDs
-    let targetServiceUUID = "0x7f075acf-ab17-40dd-b87d-c60f8dfc72d8"
-    let targetCharacteristics = "0xb36c6c17-121d-49fd-8316-af28188e58a0"
+//    let targetServiceUUID = "0x7f075acf-ab17-40dd-b87d-c60f8dfc72d8"
+//    let targetCharacteristics = "0xb36c6c17-121d-49fd-8316-af28188e58a0"
+    
+    let targetServiceUUID = "d7064211-e10c-4914-b1bd-53e1535ddc5c"
+    let targetCharacteristics = "b11bb9d4-9a36-48aa-94b3-9aa441c1d950"
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -95,13 +99,12 @@ CBPeripheralDelegate
 //        videoView.layer.addSublayer(videoLayer)
 //
 //        session.startRunning()
-        
         // - bluetooth
         centralManager = CBCentralManager(delegate: self, queue: nil)
         isRaspberryReady = false
         
         // - timer
-        Timer.scheduledTimer(timeInterval: 10.0, target: self, selector:#selector(ViewController.sendHeartBeat), userInfo: nil, repeats: true)
+        // Timer.scheduledTimer(timeInterval: 10.0, target: self, selector:#selector(ViewController.sendHeartBeat), userInfo: nil, repeats: true)
     }
 
     override func didReceiveMemoryWarning() {
@@ -118,7 +121,7 @@ CBPeripheralDelegate
         if locationManager.isUpdating {
             // reset the trip
             let now = Date()
-            trip = Trip(started: now)
+            let tmpTrip = Trip(started: now)
             
 //            do{
 //                let videoURL = try FileWriter.createFullPath(for: "\(now.epoch()).mp4", in: .Documents)
@@ -127,9 +130,16 @@ CBPeripheralDelegate
 //                // TODO: Error Handling
 //            }
             
+            let RFC3339DateFormatter = DateFormatter()
+            RFC3339DateFormatter.locale = Locale(identifier: "America/New_York")
+            RFC3339DateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZZZZZ"
+            RFC3339DateFormatter.timeZone = TimeZone(secondsFromGMT: 0)
+            
+            let date = RFC3339DateFormatter.string(from: now)
+            send(string: "a, \(date), \(tmpTrip.uuid)")
             UIApplication.shared.isIdleTimerDisabled = true
-
             locationButton.setTitle("stop recording", for: .normal)
+            trip = tmpTrip
         } else {
             // save the trip to a file
             if let trip = trip {
@@ -146,6 +156,7 @@ CBPeripheralDelegate
             UIApplication.shared.isIdleTimerDisabled = false
 
             locationButton.setTitle("start recording", for: .normal)
+            send(string: "b")
         }
     }
     
@@ -234,7 +245,7 @@ CBPeripheralDelegate
             print("peripheral.services was nil")
             return
         }
-        
+     
         print("found \(services.count)")
         
         for service in services {
@@ -283,14 +294,33 @@ CBPeripheralDelegate
     }
     
     @objc func sendHeartBeat(){
-        
         guard let peripheral = peripheral, let characteristic = characteristic, let now = String(Date().timeIntervalSince1970).data(using: String.Encoding.utf8, allowLossyConversion: true) else {
             print("not ready for blue tooth")
             return
         }
-        
         peripheral.writeValue(now, for: characteristic, type: .withResponse)
+    }
+    
+    @objc func send(byte: UInt8){
+        guard let peripheral = peripheral, let characteristic = characteristic else {
+            print("bluetooth not ready")
+            return
+        }
+        var b = byte
+        let data = NSData(bytes: &b, length: 1)
         
+        peripheral.writeValue(data as Data, for: characteristic, type: .withResponse)
+    }
+    
+    @objc func send(string: String) {
+        guard let peripheral = peripheral,
+            let characteristic = characteristic,
+            let data = string.data(using: String.Encoding.ascii, allowLossyConversion: true) else {
+                print("bluetooth not ready")
+            return
+        }
+
+        peripheral.writeValue(data, for: characteristic, type: .withResponse)
     }
 }
 
