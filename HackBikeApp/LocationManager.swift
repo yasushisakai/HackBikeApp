@@ -87,7 +87,9 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
     }
     
     func toBackground() {
-        manager.desiredAccuracy = kCLLocationAccuracyHundredMeters
+        // manager.desiredAccuracy = kCLLocationAccuracyHundredMeters
+        // manager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
+        manager.desiredAccuracy = kCLLocationAccuracyBest
         manager.distanceFilter = 50
     }
     
