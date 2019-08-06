@@ -9,6 +9,7 @@
 import UIKit
 import CoreLocation
 import Foundation
+import CoreBluetooth
 
 class ViewController:
 UIViewController,
@@ -18,6 +19,7 @@ LocationDelegate,
 CBCentralManagerDelegate,
 CBPeripheralDelegate
 {
+    
     @IBOutlet weak var locationButton: UIButton!
     @IBOutlet weak var videoView: UIView!
     
@@ -27,11 +29,11 @@ CBPeripheralDelegate
     
     var trip: Trip?
     
-    // var centralManager: CBCentralManager?
-    // var peripheral: CBPeripheral?
-    // var characteristic: CBCharacteristic?
+    var centralManager: CBCentralManager?
+    var peripheral: CBPeripheral?
+    var characteristic: CBCharacteristic?
     
-    // var isRaspberryReady = false
+    var isRaspberryReady = false
     
     // hardcoded by raspi
     
@@ -182,14 +184,14 @@ CBPeripheralDelegate
     //     //
     // }
     
-    // // MARK: - Bluetooth Central Manager Delegate
-    //
-    // func centralManagerDidUpdateState(_ central: CBCentralManager) {
-    //
-    //     guard let centralManager = centralManager else {
-    //         print("centralManager missing")
-    //         return
-    //     }
+     // MARK: - Bluetooth Central Manager Delegate
+    
+     func centralManagerDidUpdateState(_ central: CBCentralManager) {
+    
+         guard let centralManager = centralManager else {
+             print("centralManager missing")
+             return
+         }
 
    	switch centralManager.state {
         case .poweredOn :
