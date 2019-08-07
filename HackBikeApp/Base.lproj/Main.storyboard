@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -20,7 +20,34 @@
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="EBX-LR-02o">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="General Status" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AmL-ad-RDb">
+                                        <rect key="frame" x="22" y="21" width="331" height="12"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Bluetooth Status" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QOW-9p-c47">
+                                        <rect key="frame" x="22" y="63" width="331" height="46"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" relation="lessThanOrEqual" constant="50" id="Spc-o4-OpC"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="AmL-ad-RDb" secondAttribute="trailing" constant="22" id="1GC-xa-NcH"/>
+                                    <constraint firstItem="QOW-9p-c47" firstAttribute="top" secondItem="AmL-ad-RDb" secondAttribute="bottom" constant="30" id="6Uu-wB-jsU"/>
+                                    <constraint firstItem="AmL-ad-RDb" firstAttribute="top" secondItem="EBX-LR-02o" secondAttribute="topMargin" constant="-7" id="McH-mv-XOt"/>
+                                    <constraint firstItem="QOW-9p-c47" firstAttribute="leading" secondItem="EBX-LR-02o" secondAttribute="leading" constant="22" id="Tdq-ae-cdg"/>
+                                    <constraint firstItem="AmL-ad-RDb" firstAttribute="top" secondItem="EBX-LR-02o" secondAttribute="top" constant="30" id="WyV-Zk-8JB"/>
+                                    <constraint firstItem="QOW-9p-c47" firstAttribute="top" secondItem="AmL-ad-RDb" secondAttribute="bottom" constant="30" id="hIQ-o6-ecl"/>
+                                    <constraint firstAttribute="trailing" secondItem="QOW-9p-c47" secondAttribute="trailing" constant="22" id="rWP-Zj-f7q"/>
+                                    <constraint firstItem="AmL-ad-RDb" firstAttribute="leading" secondItem="EBX-LR-02o" secondAttribute="leading" constant="22" id="ubx-U8-cL7"/>
+                                </constraints>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Udj-U6-niz">
                                 <rect key="frame" x="20" y="571" width="335" height="56"/>
@@ -48,7 +75,9 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <connections>
+                        <outlet property="btStatus" destination="QOW-9p-c47" id="Kzb-dz-x3w"/>
                         <outlet property="locationButton" destination="Udj-U6-niz" id="FKm-JC-sBM"/>
+                        <outlet property="status" destination="AmL-ad-RDb" id="8us-42-Aku"/>
                         <outlet property="videoView" destination="EBX-LR-02o" id="0lM-cm-kg4"/>
                     </connections>
                 </viewController>

@@ -22,6 +22,8 @@ CBPeripheralDelegate
     
     @IBOutlet weak var locationButton: UIButton!
     @IBOutlet weak var videoView: UIView!
+    @IBOutlet weak var status: UILabel!
+    @IBOutlet weak var btStatus: UILabel!
     
     lazy var locationManager = {
         LocationManager(permissionDelegate: self, locationDelegate: self)
@@ -35,14 +37,20 @@ CBPeripheralDelegate
     
     var isRaspberryReady = false
     
+    let RFC3339DateFormatter = DateFormatter()
     // hardcoded by raspi
     
     // hackbicycle-earth UUIDs
 //    let targetServiceUUID = "0x7f075acf-ab17-40dd-b87d-c60f8dfc72d8"
 //    let targetCharacteristics = "0xb36c6c17-121d-49fd-8316-af28188e58a0"
     
-    let targetServiceUUID = "d7064211-e10c-4914-b1bd-53e1535ddc5c"
-    let targetCharacteristics = "b11bb9d4-9a36-48aa-94b3-9aa441c1d950"
+    // hackbike-saturn
+//    let targetServiceUUID = "d7064211-e10c-4914-b1bd-53e1535ddc5c"
+//    let targetCharacteristics = "b11bb9d4-9a36-48aa-94b3-9aa441c1d950"
+    
+    // hackbike-venus
+    let targetServiceUUID = "8a123c0f-fa18-4e5c-8e33-c4087ddca581"
+    let targetCharacteristics = "a5b30759-4b3f-46ef-a34a-3af6cf741d77"
     
     
     override func viewDidLoad() {
@@ -52,6 +60,13 @@ CBPeripheralDelegate
         } catch let error {
             print("error: \(error)")
         }
+        
+        status.text = "loaded"
+        btStatus.text = "bluetooth not loaded"
+        
+        RFC3339DateFormatter.locale = Locale(identifier: "America/New_York")
+        RFC3339DateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZZZZZ"
+        RFC3339DateFormatter.timeZone = TimeZone(secondsFromGMT: 0)
 
 //        let session = AVCaptureSession()
         
@@ -89,7 +104,7 @@ CBPeripheralDelegate
         isRaspberryReady = false
         
         // - timer
-        // Timer.scheduledTimer(timeInterval: 10.0, target: self, selector:#selector(ViewController.sendHeartBeat), userInfo: nil, repeats: true)
+        Timer.scheduledTimer(timeInterval: 10.0, target: self, selector:#selector(ViewController.sendHeartBeat), userInfo: nil, repeats: true)
     }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -101,6 +116,11 @@ CBPeripheralDelegate
     }
     
     @objc func toggleUpdatingLocation(){
+        
+        if !isRaspberryReady {
+            return
+        }
+        
         locationManager.toggleUpdate()
         if locationManager.isUpdating {
             // reset the trip
@@ -114,42 +134,38 @@ CBPeripheralDelegate
 //                // TODO: Error Handling
 //            }
             
-            let RFC3339DateFormatter = DateFormatter()
-            RFC3339DateFormatter.locale = Locale(identifier: "America/New_York")
-            RFC3339DateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZZZZZ"
-            RFC3339DateFormatter.timeZone = TimeZone(secondsFromGMT: 0)
-            
             let date = RFC3339DateFormatter.string(from: now)
-            send(string: "a, \(date), \(tmpTrip.uuid)")
+            send(string: "s, \(date), \(tmpTrip.uuid)")
             UIApplication.shared.isIdleTimerDisabled = true
             locationButton.setTitle("stop recording", for: .normal)
             trip = tmpTrip
+            status.text = "new trip \(tmpTrip.uuid) started"
         } else {
             // save the trip to a file
             if let trip = trip {
                 let fmt = DateFormatter()
                 fmt.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
-                let fileName = "trip_\(fmt.string(from: trip.started)).csv"
+                let fileName = "trip_\(fmt.string(from: trip.started))_\(trip.uuid).csv"
                 do {
                     try FileWriter.write(to: fileName, contents: trip.breadCrumbString())
                 } catch let error {
                     fatalError(error.localizedDescription)
                 }
+                status.text = "saved trip \(trip.uuid)"
+                send(string: "e")
             }
             
             UIApplication.shared.isIdleTimerDisabled = false
-
             locationButton.setTitle("start recording", for: .normal)
-            send(string: "b")
         }
     }
     
     // MARK: - Location Permission Delegate Function
     
     func authGranted() {
-        locationButton.isEnabled = true
+        // locationButton.isEnabled = false
         locationButton.addTarget(self, action: #selector(ViewController.toggleUpdatingLocation), for:.touchUpInside)
-        locationButton.setTitle("start recording", for: .normal)
+        locationButton.setTitle("looking for bike", for: .normal)
     }
     
     func authFailed(with status: CLAuthorizationStatus) {
@@ -185,7 +201,6 @@ CBPeripheralDelegate
     // }
     
      // MARK: - Bluetooth Central Manager Delegate
-    
      func centralManagerDidUpdateState(_ central: CBCentralManager) {
     
          guard let centralManager = centralManager else {
@@ -193,13 +208,17 @@ CBPeripheralDelegate
              return
          }
 
-   	switch centralManager.state {
-        case .poweredOn :
-            let services: [CBUUID] = [CBUUID(string: targetServiceUUID)]
-            centralManager.scanForPeripherals(withServices: services, options: nil)
-        default :
-            return
+        switch centralManager.state {
+            case .poweredOn, .resetting :
+                connect(to: centralManager)
+            default :
+                return
         }
+    }
+    
+    func connect(to cm: CBCentralManager) {
+        let services: [CBUUID] = [CBUUID(string: targetServiceUUID)]
+        cm.scanForPeripherals(withServices: services, options: nil)
     }
     
     func centralManager(_ central: CBCentralManager, didDiscover peripheral: CBPeripheral, advertisementData: [String : Any], rssi RSSI: NSNumber) {
@@ -207,7 +226,7 @@ CBPeripheralDelegate
             return
         }
         
-        print("found peripheral name: \(name)")
+        btStatus.text = "found peripheral name: \(name)"
         
         self.peripheral = peripheral
         centralManager.connect(peripheral, options: nil)
@@ -216,7 +235,7 @@ CBPeripheralDelegate
     
     func centralManager(_ central: CBCentralManager, didConnect peripheral: CBPeripheral) {
         
-        print("connected to peripheral: \(peripheral.name ?? "undefined")")
+        btStatus.text = "connected to peripheral: \(peripheral.name ?? "undefined")"
         
         peripheral.delegate = self
         let services: [CBUUID] = [CBUUID(string: targetServiceUUID)]
@@ -225,14 +244,13 @@ CBPeripheralDelegate
     
     func centralManager(_ central: CBCentralManager, didFailToConnect peripheral: CBPeripheral, error: Error?) {
         if let error = error {
-            print("error connecting to peripheral: \(error)")
+            btStatus.text = "error connecting to peripheral: \(error)"
         }
-        
     }
     
     func peripheral(_ peripheral: CBPeripheral, didDiscoverServices error: Error?) {
         if let _ = error {
-            print("error discovering service")
+            btStatus.text = "error discovering service"
         }
         
         guard let services = peripheral.services else {
@@ -266,55 +284,70 @@ CBPeripheralDelegate
                 self.peripheral = peripheral
                 self.characteristic = characteristic
                 guard let data = "start".data(using: String.Encoding.utf8, allowLossyConversion: true) else {
-                    
                     print("enable to decode data")
                     return
-                    
                 }
                 peripheral.writeValue(data, for: characteristic, type: CBCharacteristicWriteType.withResponse)
-                
-                sendHeartBeat()
+                locationButton.isEnabled = true
+                locationButton.setTitle("start recording", for: .normal)
+                // sendHeartBeat()
             }
         }
     }
     
     func peripheral(_ peripheral: CBPeripheral, didWriteValueFor characteristic: CBCharacteristic, error: Error?) {
         if let _ = error {
-            print("error writing value for \(characteristic.uuid.uuidString)")
+            btStatus.text = "error writing value for \(characteristic.uuid.uuidString)"
             return
         }
-        
-        print("Success!")
+    }
+    
+    func peripheral(_ peripheral: CBPeripheral, didUpdateValueFor characteristic: CBCharacteristic, error: Error?) {
+        if let _ = error {
+            btStatus.text = "error updating(reading) value for \(characteristic.uuid.uuidString)"
+            return
+        }
+        let value = characteristic.value ?? "no data".data(using: String.Encoding.utf8)!;
+        print("Success updating (reading), \(String(describing: String(data: value, encoding: String.Encoding.utf8)))")
     }
     
     @objc func sendHeartBeat(){
-        guard let peripheral = peripheral, let characteristic = characteristic, let now = String(Date().timeIntervalSince1970).data(using: String.Encoding.utf8, allowLossyConversion: true) else {
-            print("not ready for blue tooth")
+        guard let peripheral = peripheral, let characteristic = characteristic else {
             return
         }
-        peripheral.writeValue(now, for: characteristic, type: .withResponse)
+        
+        let now = RFC3339DateFormatter.string(from:Date());
+        let data = "h,\(now)".data(using: String.Encoding.utf8)!;
+        peripheral.writeValue(data, for: characteristic, type: .withResponse)
     }
     
     @objc func send(byte: UInt8){
         guard let peripheral = peripheral, let characteristic = characteristic else {
-            print("bluetooth not ready")
+            btStatus.text = "Bluetooth not ready"
             return
         }
         var b = byte
         let data = NSData(bytes: &b, length: 1)
-        
         peripheral.writeValue(data as Data, for: characteristic, type: .withResponse)
     }
     
-    @objc func send(string: String) {
-        guard let peripheral = peripheral,
-            let characteristic = characteristic,
-            let data = string.data(using: String.Encoding.ascii, allowLossyConversion: true) else {
-                print("bluetooth not ready")
+    @objc func read(string: String){
+        guard let peripheral = peripheral, let characteristic = characteristic else {
+            btStatus.text = "Bluetooth not ready"
             return
         }
-
+        peripheral.readValue(for: characteristic)
+    }
+    
+    @objc func send(string: String) {
+        guard let peripheral = peripheral, let characteristic = characteristic,
+            let data = string.data(using: String.Encoding.ascii, allowLossyConversion: true) else {
+                btStatus.text = "bluetooth not ready, could not send \(string)"
+            return
+        }
         peripheral.writeValue(data, for: characteristic, type: .withResponse)
+        peripheral.readValue(for: characteristic)
+        btStatus.text = "successfully written \(string) to \(characteristic.uuid)"
     }
 }
 
