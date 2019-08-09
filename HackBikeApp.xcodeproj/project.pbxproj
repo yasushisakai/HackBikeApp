@@ -16,6 +16,8 @@
 		77AA2A23222244740048CA3D /* FileWriter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77AA2A22222244740048CA3D /* FileWriter.swift */; };
 		77AA2A2622226B6D0048CA3D /* Trip.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77AA2A2522226B6D0048CA3D /* Trip.swift */; };
 		77AA2A2822226B810048CA3D /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77AA2A2722226B810048CA3D /* Location.swift */; };
+		77ABA9D222FCF223003D7B7D /* userinfo.plist in Resources */ = {isa = PBXBuildFile; fileRef = 77ABA9D122FCF223003D7B7D /* userinfo.plist */; };
+		77ABA9D422FCF46F003D7B7D /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77ABA9D322FCF46F003D7B7D /* User.swift */; };
 		77CDCCD322FA335000F065EA /* Mapbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77CDCCD222FA335000F065EA /* Mapbox.framework */; };
 		77CDCCD422FA335000F065EA /* Mapbox.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 77CDCCD222FA335000F065EA /* Mapbox.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
@@ -46,6 +48,8 @@
 		77AA2A22222244740048CA3D /* FileWriter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileWriter.swift; sourceTree = "<group>"; };
 		77AA2A2522226B6D0048CA3D /* Trip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Trip.swift; sourceTree = "<group>"; };
 		77AA2A2722226B810048CA3D /* Location.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Location.swift; sourceTree = "<group>"; };
+		77ABA9D122FCF223003D7B7D /* userinfo.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = userinfo.plist; sourceTree = "<group>"; };
+		77ABA9D322FCF46F003D7B7D /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		77CDCCD222FA335000F065EA /* Mapbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Mapbox.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -90,6 +94,7 @@
 				7737634322209B63002FFA64 /* Info.plist */,
 				7737634B22209DC0002FFA64 /* LocationManager.swift */,
 				77AA2A22222244740048CA3D /* FileWriter.swift */,
+				77ABA9D122FCF223003D7B7D /* userinfo.plist */,
 			);
 			path = HackBikeApp;
 			sourceTree = "<group>";
@@ -99,6 +104,7 @@
 			children = (
 				77AA2A2522226B6D0048CA3D /* Trip.swift */,
 				77AA2A2722226B810048CA3D /* Location.swift */,
+				77ABA9D322FCF46F003D7B7D /* User.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -169,6 +175,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7737634222209B63002FFA64 /* LaunchScreen.storyboard in Resources */,
+				77ABA9D222FCF223003D7B7D /* userinfo.plist in Resources */,
 				7737633F22209B63002FFA64 /* Assets.xcassets in Resources */,
 				7737633D22209B63002FFA64 /* Main.storyboard in Resources */,
 			);
@@ -207,6 +214,7 @@
 				7737633822209B63002FFA64 /* AppDelegate.swift in Sources */,
 				77AA2A2822226B810048CA3D /* Location.swift in Sources */,
 				7737634C22209DC0002FFA64 /* LocationManager.swift in Sources */,
+				77ABA9D422FCF46F003D7B7D /* User.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -24,13 +24,13 @@ CBPeripheralDelegate
     @IBOutlet weak var videoView: UIView!
     @IBOutlet weak var status: UILabel!
     @IBOutlet weak var btStatus: UILabel!
-    
+    @IBOutlet weak var userId: UILabel!
     lazy var locationManager = {
         LocationManager(permissionDelegate: self, locationDelegate: self)
     }()
     
     var trip: Trip?
-    
+    var deviceId = UIDevice.current.identifierForVendor
     var centralManager: CBCentralManager?
     var peripheral: CBPeripheral?
     var characteristic: CBCharacteristic?
@@ -49,9 +49,13 @@ CBPeripheralDelegate
 //    let targetCharacteristics = "b11bb9d4-9a36-48aa-94b3-9aa441c1d950"
     
     // hackbike-venus
-    let targetServiceUUID = "8a123c0f-fa18-4e5c-8e33-c4087ddca581"
-    let targetCharacteristics = "a5b30759-4b3f-46ef-a34a-3af6cf741d77"
+//    let targetServiceUUID = "8a123c0f-fa18-4e5c-8e33-c4087ddca581"
+//    let targetCharacteristics = "a5b30759-4b3f-46ef-a34a-3af6cf741d77"
     
+    // hackbike-mercury
+    
+    let targetServiceUUID = "d5aa8ea0-4483-4b4e-9f4f-281237a623f4"
+    let targetCharacteristics = "21dbc7b9-a472-4b43-bc00-298ed6c62d21"
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -64,10 +68,16 @@ CBPeripheralDelegate
         status.text = "loaded"
         btStatus.text = "bluetooth not loaded"
         
+        guard let deviceId = deviceId else {
+            fatalError("Error: couldn't find deviceId")
+        }
+        
+        userId.text = deviceId.uuidString
+
         RFC3339DateFormatter.locale = Locale(identifier: "America/New_York")
         RFC3339DateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZZZZZ"
         RFC3339DateFormatter.timeZone = TimeZone(secondsFromGMT: 0)
-
+        
 //        let session = AVCaptureSession()
         
         // NOTE: since the simulator has no camera, you need to test it on a real
@@ -142,10 +152,10 @@ CBPeripheralDelegate
             status.text = "new trip \(tmpTrip.uuid) started"
         } else {
             // save the trip to a file
-            if let trip = trip {
+            if let trip = trip, let deviceId = deviceId{
                 let fmt = DateFormatter()
                 fmt.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
-                let fileName = "trip_\(fmt.string(from: trip.started))_\(trip.uuid).csv"
+                let fileName = "trip_\(fmt.string(from: trip.started))_\(trip.uuid)_\(deviceId.uuidString).csv"
                 do {
                     try FileWriter.write(to: fileName, contents: trip.breadCrumbString())
                 } catch let error {
