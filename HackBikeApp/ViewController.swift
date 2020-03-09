@@ -41,8 +41,8 @@ CBPeripheralDelegate
     // hardcoded by raspi
     
     // hackbicycle-earth UUIDs
-//    let targetServiceUUID = "0x7f075acf-ab17-40dd-b87d-c60f8dfc72d8"
-//    let targetCharacteristics = "0xb36c6c17-121d-49fd-8316-af28188e58a0"
+    // let targetServiceUUID = "0x7f075acf-ab17-40dd-b87d-c60f8dfc72d8"
+    // let targetCharacteristics = "0xb36c6c17-121d-49fd-8316-af28188e58a0"
     
     // hackbike-saturn
     let targetServiceUUID = "d7064211-e10c-4914-b1bd-53e1535ddc5c"
@@ -320,6 +320,16 @@ CBPeripheralDelegate
         let value = characteristic.value ?? "no data".data(using: String.Encoding.utf8)!;
         print("Success updating (reading), \(String(describing: String(data: value, encoding: String.Encoding.utf8)))")
     }
+    
+//     @objc func setLocation(location: CLLocation) {
+//         guard let peripheral = peripheral, let characteristic = characteristic else {
+//             return
+//         }
+//
+//        let coord = location.coordinate
+//        let data = "l, \(coord.latitude), \(coord.longitude)".data(using: String.Encoding.utf8)!
+//        peripheral.writeValue(data, for: characteristic, type: .withResponse)
+//    }
     
     @objc func sendHeartBeat(){
         guard let peripheral = peripheral, let characteristic = characteristic else {

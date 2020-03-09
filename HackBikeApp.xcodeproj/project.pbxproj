@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		770EA63723B42D5E00A7C25A /* fort_washington.gpx in Resources */ = {isa = PBXBuildFile; fileRef = 770EA63623B42D5E00A7C25A /* fort_washington.gpx */; };
+		770EA63923B42D6600A7C25A /* nearest_ps.gpx in Resources */ = {isa = PBXBuildFile; fileRef = 770EA63823B42D6600A7C25A /* nearest_ps.gpx */; };
+		77201EE023FAC0BC0099D8F2 /* riverside.gpx in Resources */ = {isa = PBXBuildFile; fileRef = 77201EDF23FAC0BC0099D8F2 /* riverside.gpx */; };
 		7737633822209B63002FFA64 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7737633722209B63002FFA64 /* AppDelegate.swift */; };
 		7737633A22209B63002FFA64 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7737633922209B63002FFA64 /* ViewController.swift */; };
 		7737633D22209B63002FFA64 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7737633B22209B63002FFA64 /* Main.storyboard */; };
@@ -37,6 +40,9 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		770EA63623B42D5E00A7C25A /* fort_washington.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = fort_washington.gpx; path = ../../../Downloads/fort_washington.gpx; sourceTree = "<group>"; };
+		770EA63823B42D6600A7C25A /* nearest_ps.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = nearest_ps.gpx; path = ../../../Downloads/nearest_ps.gpx; sourceTree = "<group>"; };
+		77201EDF23FAC0BC0099D8F2 /* riverside.gpx */ = {isa = PBXFileReference; lastKnownFileType = text; path = riverside.gpx; sourceTree = "<group>"; };
 		7737633422209B63002FFA64 /* HackBikeApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HackBikeApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7737633722209B63002FFA64 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		7737633922209B63002FFA64 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -68,6 +74,9 @@
 		7737632B22209B63002FFA64 = {
 			isa = PBXGroup;
 			children = (
+				770EA63623B42D5E00A7C25A /* fort_washington.gpx */,
+				77201EDF23FAC0BC0099D8F2 /* riverside.gpx */,
+				770EA63823B42D6600A7C25A /* nearest_ps.gpx */,
 				77CDCCD222FA335000F065EA /* Mapbox.framework */,
 				7737633622209B63002FFA64 /* HackBikeApp */,
 				7737633522209B63002FFA64 /* Products */,
@@ -177,6 +186,9 @@
 				7737634222209B63002FFA64 /* LaunchScreen.storyboard in Resources */,
 				77ABA9D222FCF223003D7B7D /* userinfo.plist in Resources */,
 				7737633F22209B63002FFA64 /* Assets.xcassets in Resources */,
+				770EA63923B42D6600A7C25A /* nearest_ps.gpx in Resources */,
+				77201EE023FAC0BC0099D8F2 /* riverside.gpx in Resources */,
+				770EA63723B42D5E00A7C25A /* fort_washington.gpx in Resources */,
 				7737633D22209B63002FFA64 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

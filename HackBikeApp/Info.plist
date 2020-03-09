@@ -34,6 +34,8 @@
 	<string>Location is critical for this experiment</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>Bike hack App needs to record sound</string>
+	<key>NSBluetoothAlwaysUsageDescription</key>
+	<string>this app connects with the bike via bluetooth</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>bluetooth-central</string>
